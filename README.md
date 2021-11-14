@@ -1,1 +1,1 @@
-# sinventario
+# sinventario Politecnico Gran Colombiano
