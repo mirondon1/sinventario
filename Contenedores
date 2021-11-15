@@ -31,3 +31,4 @@ psql -h NuevoContainer -U postgres Subgrupo1
 
 #Se hace la consulta y se muestran los datos insertados en el anterior container llamado integracioncontinua
 SELECT * FROM integrantes;
+ 
