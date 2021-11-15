@@ -1,0 +1,33 @@
+#Se crea contenedor de postgresql
+
+docker run --name IntegracionContinua -p 5432:5432 -e POSTGRES_PASSWORD=123 -d postgres
+
+#se crea una base de datos con el nombre de subgrupo1
+createdb -U postgres Subgrupo1   
+
+#En la siguiente lines se accede a la base de datos creada
+psql -U postgres  Subgrupo1      
+
+#Se crea una tabla llamada integrantes
+CREATE TABLE integrantes(codigo int, nombre varchar(100));
+
+#Se insertan datos a la tabla creada
+INSERT INTO integrantes(codigo, nombre) VALUES (1102371792, 'Michael Rondon');
+INSERT INTO integrantes(codigo, nombre) VALUES (100256771, 'Rusbell Lozano');
+
+#cerramos la tabla integrantes
+\q
+
+#Cerramos el contenedor
+
+exit
+
+#Creamos un nuevo contenedor llamado NuevoContainer y con el parametro --link conseguimos comunicar de forma segura nuestros dos contenedores
+
+docker run -it --rm --link IntegracionContinua:NuevoContainer --name postgres_integrantes postgres sh
+
+#Nos Conectamos a la base de datos desde el nuevo contenedor
+psql -h NuevoContainer -U postgres Subgrupo1
+
+#Se hace la consulta y se muestran los datos insertados en el anterior container llamado integracioncontinua
+SELECT * FROM integrantes;
